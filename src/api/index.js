@@ -1,10 +1,10 @@
 var express = require('express');
 var router = express.Router();
-var health = require('../health');
+var health = require('./health');
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
-  res.send(health);
+  res.status(200).json(health);
 });
 
 /* Redirect unsupported routes */
