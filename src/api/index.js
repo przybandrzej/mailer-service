@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var health = require('../health');
+var health = require('./health');
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
