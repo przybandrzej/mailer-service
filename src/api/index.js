@@ -4,7 +4,7 @@ var health = require('./health');
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
-  res.send(health);
+  res.status(200).json(health);
 });
 
 /* Redirect unsupported routes */
