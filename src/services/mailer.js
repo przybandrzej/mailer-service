@@ -1,31 +1,40 @@
-const log = require('pino')({ level: 'info' });
+const log = require('pino')({ level: 'debug' });
 const nodemailer = require('nodemailer');
 const mailerConfig = require('../../config/mail_config');
 
 const transporter = nodemailer.createTransport(mailerConfig);
 
-const sendMail = async ({ message }) => {
+const sendMail = async (message) => {
     const info = await transporter.sendMail(message);
-    log.info(info);
+    log.debug('Mail sending result: ' + info);
     return info;
 };
+
+const mailerHealth = () => {
+    return mailerInfo;
+}
 
 transporter.verify((error, success) => {
     if (error) {
-        console.log(error);
+        log.debug(error);
+        mailerInfo.message = error;
+        mailerInfo.ready = false;
     } else {
-        console.log({ success });
-        console.log('Server is ready to take our messages');
+        log.debug({
+            success,
+            message: 'Server is ready to take messages'
+        });
+        mailerInfo.ready = true;
+        mailerInfo.message = 'Server is ready to take messages';
     }
 });
 
-module.exports = async function () {
-    const info = await transporter.sendMail(msg);
-    log.info(info);
-    return info;
+let mailerInfo = {
+    ready: false,
+    message: 'Mailer service is not ready yet.'
 };
 
-const msg = {
+const testMessage = {
     from: "stk.uep@interia.pl",
     to: "andrzej.przybysz01@gmail.com",
     subject: "Message title",
@@ -33,4 +42,4 @@ const msg = {
     html: "<p>HTML version of the message</p>"
 };
 
-// module.exports = sample;
+module.exports = { sendMail, mailerHealth };
