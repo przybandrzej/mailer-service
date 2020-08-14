@@ -4,13 +4,16 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const nodemailer = require('nodemailer');
-var helmet = require('helmet');
+const helmet = require('helmet');
 require('dotenv').config();
 
 var indexRouter = require('./src/api/index');
 var mailRouter = require('./src/api/mail');
 
 var app = express();
+
+// establish db connection
+require('./src/database');
 
 app.use(logger('dev'));
 app.use(express.json());
