@@ -1,0 +1,21 @@
+version: '3.7'
+  services:
+    mailer_mongo_db:
+      image: mongo:4
+      environment:
+        MONGO_INITDB_ROOT_USERNAME: root
+        MONGO_INITDB_ROOT_PASSWORD: rootpassword
+      ports:
+        - 27017:27017
+      volumes:
+        - mongodb_data_container:/data/db
+    mailer_service:
+      build: ./
+      volumes:
+        - ./:/usr/src/api/
+      links:
+        - redis
+      ports:
+        - 3000:3000
+      env_file: ./.env
+      command: 'npm start'
