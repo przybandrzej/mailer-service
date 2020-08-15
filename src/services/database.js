@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
-const mongoConfig = require('../config/mongo_config');
+const mongoConfig = require('../../config/mongo_config');
 const log = require('pino')({ level: 'debug' });
-let mongo_health = require('./api/health').mongo_health;
+let mongo_health = require('../api/health').mongo_health;
 
 class Database {
     constructor() {
@@ -15,7 +15,7 @@ class Database {
                 mongo_health.ready = true;
                 mongo_health.message = 'MongoDb connection established.';
             })
-            .catch(err => {
+            .catch(error => {
                 log.error(error);
                 mongo_health.ready = false;
                 mongo_health.message = error;

@@ -13,7 +13,7 @@ var mailRouter = require('./src/api/mail');
 var app = express();
 
 // establish db connection
-require('./src/database');
+require('./src/services/database');
 
 app.use(logger('dev'));
 app.use(express.json());
