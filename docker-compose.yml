@@ -1,23 +1,32 @@
 version: '3.7'
 services:
   mailer_mongo_db:
+    container_name: mailer-db
     image: mongo:4
+    env_file: ./.env
     environment:
-      MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: rootpassword
+      - MONGO_INITDB_ROOT_USERNAME=$MONGO_ROOT_USERNAME
+      - MONGO_INITDB_ROOT_PASSWORD=$MONGO_ROOT_PASSWORD
+      - MONGO_INITDB_DATABASE=admin
+      - MAILER_USERNAME=$MONGO_USERNAME
+      - MAILER_PWD=$MONGO_PASSWORD
+      - MAILER_DATABASE=$MONGO_DBNAME
     ports:
       - 27017:27017
     restart: always
     volumes:
-      - /Users/andrz/Documents/Volumes/mailer-mongo-volume:/data/db
+      #- db-data:/data/db
+      #- /Users/andrz/Documents/Volumes/mailer-mongo-volume:/data/db
+      - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
     networks: 
       - mailer
-  mailer_service:
+  api:
+    container_name: mailer-api
     build: ./
     restart: always
     volumes:
       - ./:/usr/src/api/
-    links:
+    depends_on:
       - mailer_mongo_db
     ports:
       - 3000:3000
@@ -30,3 +39,6 @@ services:
 networks:
   mailer:
     driver: bridge
+
+volumes:
+  db-data:

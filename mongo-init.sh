@@ -1,0 +1,1 @@
+mongo --eval "db.auth('$MONGO_INITDB_ROOT_USERNAME', '$MONGO_INITDB_ROOT_PASSWORD'); db = db.getSiblingDB('$MAILER_DATABASE'); db.createUser({ user: '$MAILER_USERNAME', pwd: '$MAILER_PWD', roles: [{ role: 'readWrite', db: '$MAILER_DATABASE' }] });"
