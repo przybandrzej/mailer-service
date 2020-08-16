@@ -6,7 +6,7 @@ const transporter = nodemailer.createTransport(mailerConfig);
 
 const sendMail = async (message) => {
     const info = await transporter.sendMail(message);
-    log.debug('Mail sending result: ' + info);
+    log.debug('Mail sending result: ' + JSON.stringify(info));
     return info;
 };
 
