@@ -1,29 +1,29 @@
 const mongoose = require('mongoose');
 const timestampPlugin = require('./plugins/timestamp');
 
-let emailSchema = new mongoose.Schema({
-    from: {
+let errorSchema = new mongoose.Schema({
+    code: {
         type: String,
         required: true
     },
-    to: {
+    command: {
         type: String,
         required: true
     },
-    text: {
+    type: {
         type: String,
         required: true
     },
-    html: {
+    msg: {
         type: String,
         required: true
     },
-    subject: {
-        type: String,
+    request_body: {
+        type: Object,
         required: true
     }
 });
 
-emailSchema.plugin(timestampPlugin);
+errorSchema.plugin(timestampPlugin);
 
-module.exports = mongoose.model('Email', emailSchema);
+module.exports = mongoose.model('EmailError', errorSchema);

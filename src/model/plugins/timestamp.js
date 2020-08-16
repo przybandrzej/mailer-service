@@ -2,7 +2,7 @@ module.exports = function timestamp(schema) {
 
     // Add the fields to the schema
     schema.add({
-        createdAt: Date
+        createdAt: Number
     });
 
     // Create a pre-save hook
@@ -10,7 +10,7 @@ module.exports = function timestamp(schema) {
         let now = Date.now();
 
         if (!this.createdAt) {
-            this.createdAt = now;
+            this.createdAt = +now;
         }
         // Call the next function in the pre-save chain
         next();

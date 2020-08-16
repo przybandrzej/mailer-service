@@ -5,7 +5,7 @@ module.exports = {
     pool: true,
     debug: process.env.DEBUG,
     auth: {
-        user: process.env.MAILER_USER,
-        pass: process.env.MAILER_PASSWORD
+        user: 'botdeployment.test@wp.pl',
+        pass: 'rqygqDP9eagk'
     }
 };

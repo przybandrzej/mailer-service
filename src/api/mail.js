@@ -1,5 +1,5 @@
 const express = require('express');
-const log = require('pino')({ level: 'debug' });
+const log = require('pino')({ prettyPrint: true });
 const router = express.Router();
 const mailCtrl = require('../controllers/mail_ctrl');
 

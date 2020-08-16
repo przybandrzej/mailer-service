@@ -1,4 +1,4 @@
-const log = require('pino')({ level: 'debug' });
+const log = require('pino')({ prettyPrint: true });
 const nodemailer = require('nodemailer');
 const mailerConfig = require('../../config/mail_config');
 
@@ -16,11 +16,11 @@ const mailerHealth = () => {
 
 transporter.verify((error, success) => {
     if (error) {
-        log.debug(error);
+        log.error(error);
         mailerInfo.message = error;
         mailerInfo.ready = false;
     } else {
-        log.debug({
+        log.info({
             success,
             message: 'Server is ready to take messages'
         });
