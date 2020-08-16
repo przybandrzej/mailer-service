@@ -1,5 +1,5 @@
 # Node runtime version
-FROM node:12.8.3-alpine3.9
+FROM node:12.18.3-alpine3.9
 
 # The api directory insede of the docker image
 RUN mkdir -p /usr/src/api/
