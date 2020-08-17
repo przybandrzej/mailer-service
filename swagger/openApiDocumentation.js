@@ -3,7 +3,7 @@ const tags = require('./tags');
 const paths = require('./paths');
 
 module.exports = {
-    openapi: '3.0.1',
+    swagger: '2.0',
     info: {
         version: '1.0.0',
         title: 'Mailer service API',
@@ -18,19 +18,14 @@ module.exports = {
             name: 'MIT'
         }
     },
-    servers: [
-        {
-            url: 'http://localhost:3000/',
-            description: 'Local server'
-        },
-        {
-            url: 'https://api_url_testing',
-            description: 'Testing server'
-        },
-        {
-            url: 'https://api_url_production',
-            description: 'Production server'
-        }
+    host: 'localhost:3000',
+    basePath: '/',
+    schemes: ['http'],
+    consumes: [
+        'application/json'
+    ],
+    produces: [
+        'application/json'
     ],
     tags: tags,
     paths: paths,
