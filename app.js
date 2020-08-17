@@ -1,14 +1,14 @@
 const createError = require('http-errors');
 const express = require('express');
-const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
-const nodemailer = require('nodemailer');
 const helmet = require('helmet');
+const swaggerUi = require('swagger-ui-express');
 require('dotenv').config();
 
-var indexRouter = require('./src/api/index');
-var mailRouter = require('./src/api/mail');
+const indexRouter = require('./src/api/index');
+const mailRouter = require('./src/api/mail');
+const apiDocs = require('./swagger/openApiDocumentation');
 
 var app = express();
 
@@ -22,6 +22,7 @@ app.use(cookieParser());
 app.use(helmet());
 
 app.use('/mail', mailRouter);
+app.use('/v3/api-docs', swaggerUi.serve, swaggerUi.setup(apiDocs));
 app.use('/', indexRouter);
 
 // catch 404 and forward to error handler
