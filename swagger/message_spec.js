@@ -1,3 +1,137 @@
+module.exports = {
+    type: 'object',
+    description: 'Email that will be sent',
+    properties: {
+        from: {
+            type: 'string'
+        },
+        to: {
+            type: 'string'
+        },
+        subject: {
+            type: 'string'
+        },
+        text: {
+            type: 'string'
+        },
+        html: {
+            type: 'string'
+        },
+        cc: {
+            type: 'string'
+        },
+        bcc: {
+            type: 'string'
+        },
+        replyTo: {
+            type: 'string'
+        },
+        priority: {
+            type: 'string',
+            enum: ['high', 'normal', 'low']
+        },
+        date: {
+            type: 'number'
+        },
+        attachments: {
+            type: 'array',
+            items: {
+                type: 'object',
+                properties: {
+                    filename: {
+                        type: 'string'
+                    },
+                    content: {
+                        type: 'string'
+                    },
+                    path: {
+                        type: 'string'
+                    },
+                    href: {
+                        type: 'string'
+                    },
+                    httpHeaders: {
+                        type: 'object'
+                    },
+                    contentType: {
+                        type: 'string'
+                    },
+                    cid: {
+                        type: 'string'
+                    },
+                    encoding: {
+                        type: 'string'
+                    },
+                    headers: {
+                        type: 'string'
+                    },
+                    raw: {
+                        type: 'string'
+                    }
+                }
+            }
+        },
+        envelope: {
+            properties: {
+                from: {
+                    type: 'string'
+                },
+                to: {
+                    type: 'string'
+                },
+                cc: {
+                    type: 'string'
+                },
+                bcc: {
+                    type: 'string'
+                }
+            }
+        },
+        dsn: {
+            id: {
+                type: 'string'
+            },
+            return: {
+                type: {
+                    type: 'string'
+                },
+                enum: ['full', 'headers']
+            },
+            notify: {
+                type: 'array',
+                items: {
+                    type: 'string',
+                    enum: ['success', 'failure', 'delay', 'never']
+                }
+            },
+            recipient: {
+                type: 'string'
+            }
+        },
+        icalEvent: {
+            filename: {
+                type: 'string'
+            },
+            method: {
+                type: 'string'
+            },
+            content: {
+                type: 'string'
+            },
+            path: {
+                type: 'string'
+            },
+            href: {
+                type: 'string'
+            },
+            encoding: {
+                type: 'string'
+            }
+        }
+    },
+    required: ['from', 'to', 'subject']
+};
+
 /** 
  * Specs:
  * - Envelope: https://nodemailer.com/smtp/envelope/
@@ -9,8 +143,8 @@
  *  - Embedded images: https://nodemailer.com/message/embedded-images/
 */
 
-let message = {
-    from: 'mailer@nodemailer.com', // listed in rfc822 message header
+const example = {
+    from: 'Some Name mailer@nodemailer.com', // listed in rfc822 message header
     to: 'daemon@nodemailer.com', // listed in rfc822 message header
     subject: "Hello ✔", // Subject line
     text: "Hello world?", // plain text body
