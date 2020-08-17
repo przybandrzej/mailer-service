@@ -11,10 +11,6 @@ class MailCtrl {
     constructor() { }
 
     sendMail(mail) {
-        let mailerResonse = {
-            message: 'Mail has been sent!',
-            time: +new Date()
-        }
         mailer.sendMail(mail).then(info => {
             const email = new Email(mail);
             emailService.createOne(email).then(
@@ -33,7 +29,6 @@ class MailCtrl {
                 info => log.info(info)
             ).catch(err => log.error(err));
         });
-        return mailerResonse;
     }
 
 }
