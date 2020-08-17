@@ -1,14 +1,12 @@
 const createError = require('http-errors');
 const express = require('express');
-const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
-const nodemailer = require('nodemailer');
 const helmet = require('helmet');
 require('dotenv').config();
 
-var indexRouter = require('./src/api/index');
-var mailRouter = require('./src/api/mail');
+const indexRouter = require('./src/api/index');
+const mailRouter = require('./src/api/mail');
 
 var app = express();
 

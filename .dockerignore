@@ -2,3 +2,5 @@ node_modules
 npm-debug.log
 .env.example
 .env.mails
+.eslintrc.js
+.prettierrc
