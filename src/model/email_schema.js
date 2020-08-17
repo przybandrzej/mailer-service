@@ -61,7 +61,21 @@ let emailSchema = new mongoose.Schema({
         path: String,
         href: String,
         encoding: String
-    }
+    },
+    attachmets: [
+        {
+            filename: String,
+            content: String,
+            path: String,
+            href: String,
+            httpHeaders: String,
+            contentType: String,
+            cid: String,
+            encoding: String,
+            headres: String,
+            raw: String
+        }
+    ]
 });
 
 emailSchema.plugin(timestampPlugin);
