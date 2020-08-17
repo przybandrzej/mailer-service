@@ -21,28 +21,28 @@ class EmailService {
     async createMany(body) {
         return Email.insertMany(body);
     }
-
-    async updateOne(_id, body) {
-        const newData = pick(body, ['from', 'to', 'text', 'html', 'subject']);
-
-        return Email.findOneAndUpdate(
-            { _id },
-            newData,
-            { useFindAndModify: false, new: true },
-        );
-    }
-
-    async updateMany(body) {
-        const newData = pick(body.updatingFields, ['from', 'to', 'text', 'html', 'subject']);
-
-        const { nModified } = (await Email.updateMany(
-            body.filter, // find criteria
-            newData, // changing data
-        ));
-
-        return (nModified > 0);
-    }
-
+    /*
+        async updateOne(_id, body) {
+            const newData = pick(body, ['from', 'to', 'text', 'html', 'subject']);
+    
+            return Email.findOneAndUpdate(
+                { _id },
+                newData,
+                { useFindAndModify: false, new: true },
+            );
+        }
+    
+        async updateMany(body) {
+            const newData = pick(body.updatingFields, ['from', 'to', 'text', 'html', 'subject']);
+    
+            const { nModified } = (await Email.updateMany(
+                body.filter, // find criteria
+                newData, // changing data
+            ));
+    
+            return (nModified > 0);
+        }
+    */
     async deleteOne(_id) {
         const { deletedCount } = (await Email.deleteOne({ _id }));
 
