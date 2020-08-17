@@ -1,3 +1,5 @@
+const emailSpec = require('./message_spec');
+
 module.exports = {
     schemas: {
         mailSentResponse: {
@@ -54,12 +56,6 @@ module.exports = {
                 }
             }
         },
-        email: {
-            type: 'object',
-            description: 'Email that will be sent',
-            properties: {
-
-            }
-        }
+        email: emailSpec
     }
 };
