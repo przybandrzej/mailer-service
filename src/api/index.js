@@ -9,7 +9,7 @@ router.get('/', function (req, res, next) {
   res.status(200).json(health);
 });
 
-router.get('/v3/api-docs', (req, res) => {
+router.get('/v2/api-docs', (req, res) => {
   res.status(200).json(swaggerSpec);
 });
 

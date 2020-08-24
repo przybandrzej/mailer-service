@@ -5,12 +5,8 @@ const health = {
     parameters: [],
     responses: {
         '200': {
-            content: {
-                'application/json': {
-                    schema: {
-                        $ref: '#/components/schemas/apiHealth'
-                    }
-                }
+            schema: {
+                $ref: '#/definitions/apiHealth'
             }
         }
     }
@@ -23,12 +19,9 @@ const unsupported = {
     responses: {
         '200': {
             description: 'Redirects to the Healt edpoint',
-            content: {
-                'application/json': {
-                    schema: {
-                        $ref: '#/components/schemas/apiHealth'
-                    }
-                }
+
+            schema: {
+                $ref: '#/definitions/apiHealth'
             }
         }
     }
@@ -40,26 +33,21 @@ module.exports = {
             tags: ['Mail operations'],
             description: 'Send email',
             operationId: 'sendMail',
-            parameters: [],
-            requestBody: {
-                content: {
-                    'application/json': {
-                        schema: {
-                            $ref: '#/components/schemas/email'
-                        }
+            parameters: [
+                {
+                    in: 'body',
+                    name: 'mail',
+                    required: true,
+                    schema: {
+                        $ref: '#/definitions/email'
                     }
-                },
-                required: true
-            },
+                }
+            ],
             responses: {
                 '200': {
                     description: 'Email was sent',
-                    content: {
-                        'application/json': {
-                            schema: {
-                                $ref: '#/components/schemas/mailSentResponse'
-                            }
-                        }
+                    schema: {
+                        $ref: '#/definitions/mailSentResponse'
                     }
                 }
             }

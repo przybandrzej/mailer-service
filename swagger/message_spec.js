@@ -1,6 +1,7 @@
 module.exports = {
     type: 'object',
     description: 'Email that will be sent',
+    title: 'Email',
     properties: {
         from: {
             type: 'string'
@@ -88,44 +89,48 @@ module.exports = {
             }
         },
         dsn: {
-            id: {
-                type: 'string'
-            },
-            return: {
-                type: {
+            properties: {
+                id: {
                     type: 'string'
                 },
-                enum: ['full', 'headers']
-            },
-            notify: {
-                type: 'array',
-                items: {
-                    type: 'string',
-                    enum: ['success', 'failure', 'delay', 'never']
+                return: {
+                    type: {
+                        type: 'string'
+                    },
+                    enum: ['full', 'headers']
+                },
+                notify: {
+                    type: 'array',
+                    items: {
+                        type: 'string',
+                        enum: ['success', 'failure', 'delay', 'never']
+                    }
+                },
+                recipient: {
+                    type: 'string'
                 }
-            },
-            recipient: {
-                type: 'string'
             }
         },
         icalEvent: {
-            filename: {
-                type: 'string'
-            },
-            method: {
-                type: 'string'
-            },
-            content: {
-                type: 'string'
-            },
-            path: {
-                type: 'string'
-            },
-            href: {
-                type: 'string'
-            },
-            encoding: {
-                type: 'string'
+            properties: {
+                filename: {
+                    type: 'string'
+                },
+                method: {
+                    type: 'string'
+                },
+                content: {
+                    type: 'string'
+                },
+                path: {
+                    type: 'string'
+                },
+                href: {
+                    type: 'string'
+                },
+                encoding: {
+                    type: 'string'
+                }
             }
         }
     },
