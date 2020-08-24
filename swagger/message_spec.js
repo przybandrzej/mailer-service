@@ -3,9 +3,6 @@ module.exports = {
     description: 'Email that will be sent',
     title: 'Email',
     properties: {
-        from: {
-            type: 'string'
-        },
         to: {
             type: 'string'
         },
