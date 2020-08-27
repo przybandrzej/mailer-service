@@ -5,15 +5,19 @@ const Email = require('../model/email_schema');
 const EmailError = require('../model/email_error_schema');
 const log = require('pino')({ prettyPrint: true });
 const mailerConfig = require('../../config/mail_config');
+const resultSender = require('../services/rabbitmq_result_sender');
 
 class MailCtrl {
 
     constructor() { }
 
-    sendMail(mail) {
+    sendMail(mail, isFromRabbitMq) {
         mail = setEmailFrom(mail);
         mailer.sendMail(mail).then(info => {
             const email = new Email(mail);
+            if (isFromRabbitMq) {
+                resultSender.sendPositiveResult(mail);
+            }
             emailService.createOne(email).then(
                 info => log.info(info)
             ).catch(err => log.error(err));
@@ -26,6 +30,9 @@ class MailCtrl {
                 msg: error.message,
                 request_body: mail
             });
+            if (isFromRabbitMq) {
+                resultSender.sendNegativeResult(JSON.parse(emailError));
+            }
             emailErrorService.createOne(emailError).then(
                 info => log.info(info)
             ).catch(err => log.error(err));
