@@ -10,6 +10,10 @@ const mailRouter = require('./src/api/mail');
 
 var app = express();
 
+// start mailer service
+const mailer = require('./src/services/mailer');
+mailer.start();
+
 // establish db connection
 const mongo = require('./src/services/database');
 mongo.start();

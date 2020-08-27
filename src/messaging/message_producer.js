@@ -12,6 +12,7 @@ const start = (connection) => {
             durable: false
         });
         producerChannel = channel;
+        log.info("[AMQP - producer] connected.");
     });
 }
 

@@ -7,38 +7,32 @@ const log = require('pino')({ prettyPrint: true });
 const mailerConfig = require('../../config/mail_config');
 const resultSender = require('../services/rabbitmq_result_sender');
 
-class MailCtrl {
-
-    constructor() { }
-
-    sendMail(mail, isFromRabbitMq) {
-        mail = setEmailFrom(mail);
-        mailer.sendMail(mail).then(info => {
-            const email = new Email(mail);
-            if (isFromRabbitMq) {
-                resultSender.sendPositiveResult(mail);
-            }
-            emailService.createOne(email).then(
-                info => log.info(info)
-            ).catch(err => log.error(err));
-        }).catch(error => {
-            log.error(error);
-            const emailError = new EmailError({
-                code: error.code,
-                command: error.command,
-                type: error.name,
-                msg: error.message,
-                request_body: mail
-            });
-            if (isFromRabbitMq) {
-                resultSender.sendNegativeResult(JSON.parse(emailError));
-            }
-            emailErrorService.createOne(emailError).then(
-                info => log.info(info)
-            ).catch(err => log.error(err));
+const sendMail = (mail, isFromRabbitMq) => {
+    mail = setEmailFrom(mail);
+    mailer.sendMail(mail).then(info => {
+        const email = new Email(mail);
+        if (isFromRabbitMq) {
+            resultSender.sendPositiveResult(JSON.stringify(mail));
+        }
+        emailService.createOne(email).then(
+            info => log.info(JSON.stringify(info))
+        ).catch(err => log.error(JSON.stringify(err)));
+    }).catch(error => {
+        log.error(JSON.stringify(error));
+        const emailError = new EmailError({
+            code: error.code,
+            command: error.command,
+            type: error.name,
+            msg: error.message,
+            request_body: mail
         });
-    }
-
+        if (isFromRabbitMq) {
+            resultSender.sendNegativeResult(JSON.stringify(emailError));
+        }
+        emailErrorService.createOne(emailError).then(
+            info => log.info(JSON.stringify(info))
+        ).catch(err => log.error(JSON.stringify(err)));
+    });
 }
 
 const setEmailFrom = (message) => {
@@ -56,8 +50,8 @@ const setEmailFrom = (message) => {
         }
         email = email + '@' + host;
     }
-    message.add({ from: email });
+    message.from = email;
     return message;
 };
 
-module.exports = new MailCtrl();
+module.exports = { sendMail };

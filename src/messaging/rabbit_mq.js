@@ -1,12 +1,19 @@
-const amqp = require('amqplib/callback_api');
 const url = require('../../config/rabbitmq_config').url;
 const sender = require('./message_producer');
 const receiver = require('./message_consumer');
 const log = require('pino')({ prettyPrint: true });
-let amqpConn = null;
+
+let amqpConn = [];
+let processExit = false;
 
 const start = () => {
     log.info("[AMQP] connecting...");
+    connect(receiver);
+    connect(sender);
+}
+
+const connect = (worker) => {
+    const amqp = require('amqplib/callback_api');
     amqp.connect(url, function (err, conn) {
         if (err) {
             log.error("[AMQP]", err.message);
@@ -15,24 +22,28 @@ const start = () => {
         conn.on("error", function (err) {
             if (err.message !== "Connection closing") {
                 log.error("[AMQP] connection error. ", err.message);
+                log.error(err);
             }
         });
         conn.on("close", function () {
+            if (processExit) {
+                return;
+            }
             log.info("[AMQP] reconnecting");
             return setTimeout(start, 1000);
         });
 
         log.info("[AMQP] connected.");
-        amqpConn = conn;
-        receiver.start(conn);
-        sender.start(conn);
+        amqpConn.push(conn);
+        worker.start(conn);
     });
-}
+};
 
 process.on('exit', (code) => {
     log.info("[AMQP] closing connection.");
-    if (amqpConn) {
-        amqpConn.close();
+    processExit = true;
+    for (conn of amqpConn) {
+        conn.close();
         log.info("[AMQP] connection closed.");
     }
 });

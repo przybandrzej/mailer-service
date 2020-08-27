@@ -11,11 +11,12 @@ const start = (connection) => {
         channel.assertQueue(mailsQueue, {
             durable: false
         });
+        log.info("[AMQP - consumer] connected.");
         log.info("[AMQP - consumer] Waiting for messages in %s.", mailsQueue);
 
         channel.consume(mailsQueue, function (msg) {
-            log.info(" [AMQP - consumer] Received message: %s.", msg.content.toString());
-            mailerController.sendMail(JSON.parse(msg), true);
+            log.info(" [AMQP - consumer] Received message: %s.", msg.content);
+            mailerController.sendMail(msg, true);
         }, {
             noAck: true
         });
