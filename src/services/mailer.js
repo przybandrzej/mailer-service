@@ -5,7 +5,7 @@ const mailerConfig = require('../../config/mail_config');
 let transporter = null;
 
 const start = () => {
-    transporter = nodemailer.createTransport(mailerConfig);
+    transporter = nodemailer.createTransport(mailerConfig());
     transporter.verify((error, success) => {
         if (error) {
             log.error(JSON.stringify(error));
@@ -32,14 +32,6 @@ const mailerHealth = () => {
 let mailerInfo = {
     ready: false,
     message: 'Mailer service is not ready yet.'
-};
-
-const testMessage = {
-    from: "stk.uep@interia.pl",
-    to: "andrzej.przybysz01@gmail.com",
-    subject: "Message title",
-    text: "Plaintext version of the message",
-    html: "<p>HTML version of the message</p>"
 };
 
 module.exports = { start, sendMail, mailerHealth };
