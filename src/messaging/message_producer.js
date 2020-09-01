@@ -18,8 +18,8 @@ const start = (connection) => {
 
 const sendResult = (message) => {
     if (producerChannel) {
-        producerChannel.sendToQueue(resultsQueue, Buffer.from(message));
-        log.info(" [AMQP - producer] Sent message in %s: %s", resultsQueue, message);
+        producerChannel.sendToQueue(resultsQueue, Buffer.from(message, 'utf-8'));
+        log.info(" [AMQP - producer] Sent message to %s: %s", resultsQueue, message);
         return;
     }
     log.error('[AMQP - producer] Channel is null');

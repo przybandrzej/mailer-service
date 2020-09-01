@@ -4,22 +4,22 @@ const mailer = require('../services/mailer');
 const Email = require('../model/email_schema');
 const EmailError = require('../model/email_error_schema');
 const log = require('pino')({ prettyPrint: true });
-const mailerConfig = require('../../config/mail_config');
+const mailerConfig = require('../../config/mail_config')();
 const resultSender = require('../services/rabbitmq_result_sender');
 
 const sendMail = (mail, isFromRabbitMq) => {
     mail = setEmailFrom(mail);
     mailer.sendMail(mail).then(info => {
+        log.debug('[Mail controller] Email has been sent.');
         const email = new Email(mail);
         if (isFromRabbitMq) {
-            log.info('sending positive result');
             resultSender.sendPositiveResult(JSON.stringify(mail));
         }
-        emailService.createOne(email).then(
-            info => log.info(JSON.stringify(info))
-        ).catch(err => log.error(JSON.stringify(err)));
+        emailService.createOne(email)
+            .then(info => { }/*log.info(JSON.stringify(info))*/)
+            .catch(err => { }/*log.error(JSON.stringify(err))*/);
     }).catch(error => {
-        log.error(JSON.stringify(error));
+        log.error('[Mail controller] Error sending mail: ' + JSON.stringify(error));
         const emailError = new EmailError({
             code: error.code,
             command: error.command,
@@ -28,12 +28,11 @@ const sendMail = (mail, isFromRabbitMq) => {
             request_body: mail
         });
         if (isFromRabbitMq) {
-            log.info('sending negative result');
             resultSender.sendNegativeResult(JSON.stringify(emailError));
         }
-        emailErrorService.createOne(emailError).then(
-            info => log.info(JSON.stringify(info))
-        ).catch(err => log.error(JSON.stringify(err)));
+        emailErrorService.createOne(emailError)
+            .then(info => { }/*log.info(JSON.stringify(info))*/)
+            .catch(err => { }/*log.error(JSON.stringify(err))*/);
     });
 }
 
@@ -52,8 +51,10 @@ const setEmailFrom = (message) => {
         }
         email = email + '@' + host;
     }
-    message.from = email;
-    return message;
+    const emailPair = { from: email };
+    let extendedMessage = JSON.parse(JSON.stringify(message));
+    Object.assign(extendedMessage, emailPair);
+    return extendedMessage;
 };
 
 module.exports = { sendMail };

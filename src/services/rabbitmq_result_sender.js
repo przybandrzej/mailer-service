@@ -1,9 +1,5 @@
 const sender = require('../messaging/message_producer');
 
-let result = {
-    success: false
-};
-
 const sendPositiveResult = (email) => {
     sender.sendResult(JSON.stringify({ success: true }));
 };
