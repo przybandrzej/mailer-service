@@ -9,7 +9,7 @@ const start = (connection) => {
             throw error1;
         }
         channel.assertQueue(resultsQueue, {
-            durable: false
+            durable: true
         });
         producerChannel = channel;
         log.info("[AMQP - producer] connected.");

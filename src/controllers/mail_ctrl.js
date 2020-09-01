@@ -12,6 +12,7 @@ const sendMail = (mail, isFromRabbitMq) => {
     mailer.sendMail(mail).then(info => {
         const email = new Email(mail);
         if (isFromRabbitMq) {
+            log.info('sending positive result');
             resultSender.sendPositiveResult(JSON.stringify(mail));
         }
         emailService.createOne(email).then(
@@ -27,6 +28,7 @@ const sendMail = (mail, isFromRabbitMq) => {
             request_body: mail
         });
         if (isFromRabbitMq) {
+            log.info('sending negative result');
             resultSender.sendNegativeResult(JSON.stringify(emailError));
         }
         emailErrorService.createOne(emailError).then(

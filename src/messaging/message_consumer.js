@@ -9,7 +9,7 @@ const start = (connection) => {
             throw error1;
         }
         channel.assertQueue(mailsQueue, {
-            durable: false
+            durable: true
         });
         log.info("[AMQP - consumer] connected.");
         log.info("[AMQP - consumer] Waiting for messages in %s.", mailsQueue);
