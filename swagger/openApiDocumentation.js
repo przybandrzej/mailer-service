@@ -1,4 +1,4 @@
-const components = require('./components');
+const definitions = require('./definitions');
 const tags = require('./tags');
 const paths = require('./paths');
 
@@ -29,5 +29,5 @@ module.exports = {
     ],
     tags: tags,
     paths: paths,
-    components: components
+    definitions: definitions
 };
