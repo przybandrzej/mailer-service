@@ -17,7 +17,7 @@ const sendMail = (mail, isFromRabbitMq) => {
         }
         emailService.createOne(email)
             .then(info => { }/*log.info(JSON.stringify(info))*/)
-            .catch(err => { }/*log.error(JSON.stringify(err))*/);
+            .catch(err => log.error('[Mail controller] Error saving mail to DB: ' + JSON.stringify(err)));
     }).catch(error => {
         log.error('[Mail controller] Error sending mail: ' + JSON.stringify(error));
         const emailError = new EmailError({
@@ -32,7 +32,7 @@ const sendMail = (mail, isFromRabbitMq) => {
         }
         emailErrorService.createOne(emailError)
             .then(info => { }/*log.info(JSON.stringify(info))*/)
-            .catch(err => { }/*log.error(JSON.stringify(err))*/);
+            .catch(err => log.error('[Mail controller] Error saving mail error to DB: ' + JSON.stringify(err)));
     });
 }
 

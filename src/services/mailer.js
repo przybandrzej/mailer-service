@@ -3,6 +3,7 @@ const nodemailer = require('nodemailer');
 const mailerConfig = require('../../config/mail_config');
 
 let transporter = null;
+let connectionCallback = null;
 
 const start = () => {
     transporter = nodemailer.createTransport(mailerConfig());
@@ -15,6 +16,9 @@ const start = () => {
             log.info('[Mailer] Server is ready to take messages');
             mailerInfo.ready = true;
             mailerInfo.message = 'Server is ready to take messages';
+            if (connectionCallback) {
+                connectionCallback();
+            }
         }
     });
 }
@@ -34,4 +38,13 @@ let mailerInfo = {
     message: 'Mailer service is not ready yet.'
 };
 
-module.exports = { start, sendMail, mailerHealth };
+const whenConnected = (callback) => {
+    if (typeof callback !== 'function') {
+        log.error('[Mailer] callback must be a function type.');
+    }
+    if (callback) {
+        connectionCallback = callback;
+    }
+};
+
+module.exports = { start, sendMail, mailerHealth, whenConnected };
