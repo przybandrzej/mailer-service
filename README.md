@@ -32,7 +32,8 @@ All the options are equal to the Nodemailer transport options:
  * MAILER_PASSWORD -> auth.pass
  * MAILER_SECURE -> secure
  * MAILER_SERVICE -> service  
- For more info refer to the [Nodemailer docs](https://nodemailer.com/about/).
+ 
+For more info refer to the [Nodemailer docs](https://nodemailer.com/about/).
 
 # Tools
 * [NodeJs]()
