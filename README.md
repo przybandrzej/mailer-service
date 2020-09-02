@@ -1,5 +1,5 @@
 # mailer-service  
-current version: 0.5.0
+**current version: 0.5.0**
 
 A service to send emails from applications from a microservices cluster.   
 The service takes all emails compatibile with the [**Nodemailer**](https://nodemailer.com/) specification. To see the full Email object, go to API docs.
