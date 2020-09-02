@@ -7,7 +7,7 @@ router.post('/send', (req, res, next) => {
     log.debug('REST request to send a mail: ' + JSON.stringify(req.body));
     let mailerResonse = require('../model/mailerResponse');
     mailerResponse.message = 'Mail has been sent!';
-    mailCtrl.sendMail(req.body);
+    mailCtrl.sendMail(req.body, false);
     return res.status(200).json(mailerResonse);
 });
 

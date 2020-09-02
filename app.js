@@ -10,8 +10,17 @@ const mailRouter = require('./src/api/mail');
 
 var app = express();
 
+const mailer = require('./src/services/mailer');
+const mongo = require('./src/services/database');
+const rabbitmq = require('./src/messaging/rabbit_mq');
+
+//start rabbitmq when mailer is connected
+mailer.whenConnected(rabbitmq.start);
 // establish db connection
-require('./src/services/database');
+mongo.start();
+// start mailer when mongo connection is established
+mongo.whenConnected(mailer.start);
+
 
 app.use(logger('dev'));
 app.use(express.json());
