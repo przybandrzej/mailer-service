@@ -13,7 +13,6 @@ services:
       - MAILER_DATABASE=$MONGO_DBNAME
     ports:
       - 27017:27017
-    restart: always
     volumes:
       #- db-data:/data/db
       #- /Users/andrz/Documents/Volumes/mailer-mongo-volume:/data/db
@@ -26,7 +25,6 @@ services:
     build: 
       context: ./
       dockerfile: Dockerfile
-    restart: always
     volumes:
       - ./:/usr/src/api/
     depends_on:

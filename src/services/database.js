@@ -6,7 +6,7 @@ let mongo_health = require('../api/health').mongo_health;
 const start = () => {
     mongoose.connect(mongoConfig.url, mongoConfig.options)
         .then((client) => {
-            log.info('MongoDb connection established.');
+            log.info('[Mongo service] MongoDb connection established.');
             mongo_health.ready = true;
             mongo_health.message = 'MongoDb connection established.';
         })
@@ -19,7 +19,7 @@ const start = () => {
 
 const whenConnected = (callback) => {
     if (typeof callback !== 'function') {
-        log.error('[MongoService] callback must be a function type.');
+        log.error('[Mongo service] callback must be a function type.');
     }
     if (callback) {
         mongoose.connection.on('connected', callback);
