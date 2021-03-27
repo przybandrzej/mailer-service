@@ -17,7 +17,7 @@ const connect = (worker) => {
     amqp.connect(url, function (err, conn) {
         if (err) {
             log.error("[AMQP]", err.message);
-            return setTimeout(start, 1000);
+            return setTimeout(start, 5000);
         }
         conn.on("error", function (err) {
             if (err.message !== "Connection closing") {
@@ -31,7 +31,7 @@ const connect = (worker) => {
                 return;
             }
             log.info("[AMQP] reconnecting");
-            return setTimeout(start, 1000);
+            return setTimeout(start, 5000);
         });
         amqpConn.push(conn);
         worker.start(conn);

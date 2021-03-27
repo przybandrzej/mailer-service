@@ -14,6 +14,7 @@ const start = () => {
             log.error(error);
             mongo_health.ready = false;
             mongo_health.message = error;
+            return setTimeout(start, 5000);
         });
 };
 
